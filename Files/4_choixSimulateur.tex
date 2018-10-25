@@ -1,0 +1,489 @@
+
+Pour effectuer le choix final du simulateur, nous allons procéder de la manière suivante :
+\begin{enumerate}
+    \item Une première sélection sera faite en fonction des critères définis ci-dessus. Pour ce faire, nous allons pondérer les critères spécifiques comme la création des réseaux de transport, l'affichage 3D... En effet, en fonction de notre objectif, les critères n'ont pas le même d'importance.
+    \item Une deuxième sélection sera effectuée en fonction d'un scénario (simpliste) du trafic routier que nous allons implémenté sur les simulateurs retenus dans la première étape. Par la suite, le scénario sera développé petit à petit en fonction de nos objectifs. Enfin, le choix du simulateur se portera sur celui qui répondra aux mieux aux attentes du scénario.    
+\end{enumerate}
+
+
+La liste des simulateurs que nous proposons d'étudier est définie comme suit :
+\begin{itemize}
+    \item Matsim (Multi-Agent Transport Simulation Toolkit) - Version 0.10.1 (Open-source)
+    \item SUMO (Simulation of Urban Mobility) - Version 1.0.1 (Open-source)
+    \item GAMA (GIS Agent-based Modeling Architecture) - Version 1.8 (Open-source) 
+    \item Aimsun Next - Version 8.1.4 (propriétaire)
+    \item PTV Vissim (Planung Transport Verkehr AG Verkehr In Städten - SIMulationsmodell) - Version 10 (propriétaire)
+\end{itemize}
+
+Ce choix introductif n'est pas fortuit. En effet, ce sont les simulateurs les plus utilisés dans le trafic routier dans la littérature actuellement (voir \cite{ejercito2017traffic} pour les simulateurs Matsim, SUMO, Aimsun Next et PTV Vissim). Quant à GAMA, ce sont les récents travaux menés dans \cite{grignard2018impact} qui nous incite à l'étudier.
+
+\subsection{Comparaison des simulateurs en fonction des critères définis}
+
+\subsubsection{Pondération des critères spécifiques}
+
+En plus des critères d'évaluation ci-dessous évoqués, nous allons appliquer un système de pondération sur chaque critère afin de mieux définir nos priorités et nos objectifs. En effet, cette approche permet de réduire le degré de subjectivité dans le processus de sélection comme évoqué dans \cite{xiao2005methodology}. Pour ce faire, nous allons attribuer des scores aux critères sur une échelle de $0$ à $10$ en fonction de son importance pour l'utilisateur. Par exemple, un score de $10$ pour un critère implique que celui-ci est de priorité la plus élevée pour l'utilisateur. Inversement, un score inférieur à $5$ implique que le critère n'est pas très important pour l'utilisateur.
+
+La pondération se fait en deux étapes : 
+
+\begin{itemize}
+    \item attribuer des scores (entre $0$ et $10$) à chacun des critères en fonction de leur importance pour l'utilisateur ;
+    \item attribuer une note à chaque critère d'évaluation. Il s'agit ici de tenir compte à la fois de la disponibilité de la/les fonctionnalités (impliquées par le critère) dans le simulateur et de la facilité de l'incorporer. Un score de $10$ implique qu'une fonctionnalité est directement disponible dans le simulateur. Une valeur comprise entre $5$ et $10$ peut être affectée si une fonctionnalité n'est pas directement disponible dans le simulateur (bien que cette dernière puisse la réaliser dans une méthode indirecte). Enfin, une note de $0$ pour un critère dont le score est $10$ est éliminatoire pour le simulateur.
+\end{itemize}
+
+Par la suite, la note finale attribuée d'un critère est obtenue en multipliant son score par sa note comme présenté dans la \textsc{formule \ref{eq:noteFinale}}. 
+
+\begin{gather}\label{eq:noteFinale}
+noteFinale = score \times note
+\end{gather}
+
+Enfin, le simulateur ayant obtenu la note la plus élevée en additionnant les notes finales des critères et qui n'a pas de note éliminatoire pour un critère, sera le simulateur qui répond au mieux aux exigences de l'utilisateur. Dans notre cas, nous allons définir une note minimale à partir de laquelle un simulateur sera choisie pour la deuxième phase de sélection. 
+
+Le \textsc{tableau~\ref{tab:pondCrit}} présente les scores attribués à chaque critère d'évaluation en fonction de nos priorités.
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Système de pondération des critères en fonction des priorités de l'utilisateur \label{tab:pondCrit}}
+\begin{tabular}{|l|c|}
+\hline
+ \textbf{}  & \footnotesize \textbf{Importance/priorité pour l'utilisateur} 
+\\
+\hline
+ {\footnotesize 1. Type Licence}  & \footnotesize 10 
+ \\ 
+\hline
+\footnotesize 2. Portabilité   & \footnotesize 7
+\\ 
+\hline
+\footnotesize 3. Création des réseaux  & \footnotesize 10
+\\ 
+\hline
+\footnotesize 4. Qualité GUI et de la documentation  & \footnotesize 7
+\\ 
+\hline
+\footnotesize 5. Sortie de la simulation (données et fichiers)  & \footnotesize  10
+\\ 
+\hline
+\footnotesize 6. Gestion de très grands réseaux de trafic & \footnotesize  10
+\\ 
+\hline
+\footnotesize 7. Ajout de fonctionnalités supplémentaires  & \footnotesize 10
+\\ 
+\hline
+\footnotesize 8. Ressources mémoire et processeur  & \footnotesize  7
+\\ 
+\hline
+\footnotesize 9. Prise en compte de l'intermodalité   & \footnotesize 10
+\\ 
+\hline
+\footnotesize 10. Comportement dynamiques des véhicules  & \footnotesize 10
+\\ 
+\hline
+\footnotesize 11. Type de méta-modèle utilisé   & \footnotesize  10
+\\ 
+\hline
+\footnotesize 12. Langage de programmation  & \footnotesize 5
+\\
+\hline
+\footnotesize 13. Interfaces d’accès externe & \footnotesize 7
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{Évaluation des simulateurs en fonction des critères de sélection}
+Suite à la définition du système de pondération, nous avons fait effectué la comparaison des simulateurs en fonction des critères définis. Le \textsc{tableau~\ref{tab:compaSim}} présente les résultats de la comparaison. Ces résultats sont issus de l'étude des simulateurs en fonction des critères.
+
+
+\paragraph{1. Type Licence.}
+
+Les simulateurs SUMO, MATSim et GAMA sont sous licence Open Source. Quant à Vissim et Aimsun, ce sont des progiciels propriétaires. Ainsi, les simulateurs Open source ont une note de $10$ et ceux propriétaires sont notés à $0$. Ce choix s'explique principalement que nous souhaitons utiliser le fonctionnement du simulateur et pouvoir le modifier en fonction de nos besoins.
+
+\paragraph{2. Portabilité.}
+
+SUMO et MATSim sont exécutables sur Linux et Windows. GAMA et et Aimsun sont exécutables sur Linux, Windows et macOS. Seul Vissim est exécutable sous Windows. Une note de $10$ est attribuée au simulateur exécutable sur les trois OS, $7$ lorsqu'il est exécutable sur deux OS et $3$ pour le cas d'un seul OS.
+
+\paragraph{3. Création des réseaux.}
+
+L'ensemble des simulateurs permet de créer soit manuellement les réseaux routiers, soit importer une carte existante. Gama et Aimsun proposent une interface graphique pour la création manuelle des réseaux. Gama et Vissim permet de prendre ne compte de l'offre et la demande de trafic et de décision d'itinéraire de véhicule.
+
+\paragraph{4. Qualité GUI et de la documentation.}
+
+Tous simulateurs proposent une documentation soit en ligne soit en PDF. SUMO et MATSim offrent un affichage 2D contrairement à GAMA, Aimsun et Vissim qui présentent également un affichage 3D.
+
+\paragraph{5. Sortie de la simulation (données et fichiers).} 
+
+Les simulateurs proposent différents indicateurs sur la distribution d'un échantillon de route. Gama et Vissim permettent de comparer les résultats de différents scénarios. 
+
+\paragraph{6. Gestion de très grands réseaux de trafic.} 
+
+Hormis MatSim, les autres simulateurs permettent la prise ne compte de grandes échelles de réseaux routiers. Ainsi, les simulateurs qui permettent cette mise à l'échelle ont une note de $10$ et ceux ne le permettent pas sont notés à $0$.
+
+\paragraph{7. Ajout de fonctionnalités supplémentaires.}
+
+Tous les simulateurs permettent l'ajout des fonctionnalités supplémentaires. Pour les Open Source, c'est à l'utilisateur de faire le développement. Par contre, les simulateurs propriétaires proposent des modules supplémentaires déjà développés en option mais payants.  
+
+\paragraph{8. Ressources mémoire et processeur.}
+D'une manière générale, les simulateurs 2D et proposant des réseaux routiers peu développés, sont moins exigeants en mémoire et en calcul processeur (moins de 100 Mo). A l'inverse, les simulateurs 3D et permettant des mises à l'échelle, demandent plus de ressources mémoire et calcul processeur (au moins 700 Mo).
+
+\paragraph{9. Prise en compte de l'intermodalité.}
+
+A notre connaissance, seul Vissim propose déjà l'intermodalité. Cependant, il est possible de la \og développer \fg dans les autres simulateurs. 
+
+\paragraph{10. Type de méta-modèle utilisé.}
+
+Aimsun propose la prise en charge des modèles macroscopique, mésoscopique, microscopique et hybride. Le reste des autres simulateurs sont microscopiques. 
+
+\paragraph{11. Langage de programmation.}
+
+Sumo est développé en C++, MatSim et Gama sont développés en Java. Aimsun et Vissim étant propriétaires, le langage de programmation utilisé n'est pas précisé.
+
+\paragraph{12. Comportement dynamiques des véhicules.}
+
+Seuls MatSim, Gama et Vissim proposent des comportements dynamiques des véhicules.
+
+\paragraph{13. Interfaces d'accès externe}
+
+Pour l'instant, nous ne savons s'il existe des interfaces d'accès aux simulateurs Open Source pour la modification et/ou l'ajout des fonctionnalités.
+
+%\begin{landscape}%% Début de la page en paysage pour le tableau
+\begin{table}[!ht]
+\begin{center}
+\caption{Comparaison des simulateurs en fonction des critères choisis \label{tab:compaSim}}
+\begin{tabular}{|p{3.8cm}|c|p{1.5cm}|p{1.75cm}|p{1.5cm}|p{1.75cm}|p{1.5cm}|}
+\hline
+ \textbf{}  & \footnotesize \textbf{Score} & \footnotesize \textbf{Note (SUMO)} & \footnotesize  \textbf{Note (MATSim)} &\footnotesize \textbf{Note (GAMA)}&\footnotesize \textbf{Note (Aimsun Next)}&\footnotesize \textbf{Note (Vissim)} \\
+\hline
+ {\footnotesize 1. Type Licence}  & \footnotesize 10 & \footnotesize  10 & \footnotesize  10 & \footnotesize 10  &  \footnotesize \textcolor{red}{0} & \footnotesize \textcolor{red}{0}\\
+\hline
+\footnotesize 2. Portabilité  & \footnotesize 7 & \footnotesize 7 
+& \footnotesize 7 & \footnotesize 10  & \footnotesize 1 & \footnotesize 1
+\\ 
+\hline
+\footnotesize 3. Création des réseaux  & \footnotesize 10 & \footnotesize 8 
+%en format XML, importation de réseaux, définition manuelle de l'itinéraire  
+&  \footnotesize 10  & \footnotesize 10
+%, importation de réseaux, 
+& \footnotesize 10
+%, prise en compte de l'offre et la demande de trafic, itinéraire aléatoire 
+& \footnotesize 10
+%, prise en compte de l'offre et la demande de trafic, décision d'itinéraire de véhicule
+\\ 
+\hline
+\footnotesize 4. Qualité GUI et de la documentation & \footnotesize 7 & \footnotesize 7 & \footnotesize 8  & \footnotesize 9 & \footnotesize 9 &  \footnotesize 10
+\\ 
+\hline
+\footnotesize 5. Sortie de la simulation (données et fichiers)  & \footnotesize 10 & \footnotesize 7  & \footnotesize 8 & \footnotesize 10 & \footnotesize 9 & \footnotesize 10
+\\ 
+\hline
+\footnotesize 6. Gestion de très grands réseaux de trafic  & \footnotesize  10 & \footnotesize  10  & \footnotesize 8   & \footnotesize 10 & \footnotesize 10 & \footnotesize 10
+\\ 
+\hline
+\footnotesize 7. Ajout de fonctionnalités supplémentaires  & \footnotesize 10 &  \footnotesize 7  & \footnotesize  8  & \footnotesize 10 & \footnotesize 8 & \footnotesize 9
+\\ 
+\hline
+\footnotesize 8. Ressources mémoire et processeur  & \footnotesize 7 & \footnotesize 9 & \footnotesize  9  & \footnotesize 8 & \footnotesize 8 & \footnotesize 7
+\\ 
+\hline
+\footnotesize 9. Prise en compte de l'intermodalité  & \footnotesize 10 & \footnotesize 7  & \footnotesize 10  & \footnotesize 10 & \footnotesize 8 & \footnotesize 10
+\\ 
+\hline
+\footnotesize 10. Comportement dynamiques des véhicules  & \footnotesize 10 & \footnotesize  7 & \footnotesize 10  & \footnotesize 10 & \footnotesize 8 & \footnotesize 10
+
+\\ 
+\hline
+\footnotesize 11. Type de méta-modèle utilisé  & \footnotesize 10 & \footnotesize 10  & \footnotesize  10 & \footnotesize 10 & \footnotesize 10 & \footnotesize 10
+\\ 
+\hline
+\footnotesize 12. Langage de programmation  & \footnotesize 5 & \footnotesize 9  & \footnotesize 10  & \footnotesize 10 & \footnotesize 0 & \footnotesize 0
+\\ 
+\hline
+\footnotesize 13. Interfaces d’accès externe  & \footnotesize 7 & \footnotesize 0 & \footnotesize  0 & \footnotesize 0 & \footnotesize 0 & \footnotesize 0
+\\ 
+\hline
+\footnotesize \textbf{Total note}  & \footnotesize  & \footnotesize  866 & \footnotesize 958  & \footnotesize \textbf{1039}  & \footnotesize 756 & \footnotesize 816
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+%\end{landscape}
+
+
+%%% Comparaison des simulateurs
+\subsection{Comparaison des simulateurs en fonction du scénario de simulation}
+Avant de proposer un scénario de simulation, nous allons d'abord identifier les agents qui vont interagir dans la simulation. 
+
+\subsubsection{Les agents}
+Etant donné que nous utilisons une approche microscopique, les agents impliqués dans la simulation doivent pouvoir respecter quelques règles de comportement du trafic routier. Par exemple, la distance entre chaque voiture sur la route et la voiture qu'elle suit. L'ensemble des agents que nous avons identifié se présente comme suit :
+\begin{itemize}
+    \item routes
+    \item bâtiment
+    \item arrêt/station de transport en commun 
+    \item moyens de transport (véhicule) : moto, voiture, camion, bus, train...
+    \item moyens de régulation du trafic : feu-rouges, panneaux...
+    \item piétons
+    \item police
+\end{itemize}
+
+L'ensemble des attributs et activités de chaque agent précisé dans les tableaux ci-dessous.
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{route}\label{tab:rouge}}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline \bf Attributs et activités &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ type & Il y a deux types d'infrastructure de route : route simple (en bitume) et rail
+ \\
+ \hline
+ vitesse maximum & Chaque route a une vitesse limite à ne pas dépasser
+  \\ 
+ \hline
+ concentration  & C'est le nombre de personnes présentes sur la route
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+& 
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{bâtiment}\label{tab:batiment}}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline \bf Attributs et activités &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ usage & Il y a deux types bâtiments : habitation et lieu de travail
+ \\
+ \hline
+ taille & L'ordre de grandeur du bâtiment qui est soit petit, moyen ou grand
+  \\ 
+ \hline
+ catégorie  & En fonction de l'usage, il y a différentes catégories de bâtiments : résidence, bureau, université, hôpital...
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+& 
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{moyen de transport}\label{tab:mynTransp}}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline
+\bf Attributs et activités &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ coordonnées courantes  (x,y) & La position actuelle du véhicule sur le réseau
+ \\
+ \hline
+ taille & Ce sont les dimensions du véhicule (longueur, largeur)
+  \\ 
+ \hline
+direction   & Elle correspond au prochain arrêt à atteindre (c'est le lieu \og cible \fg)
+ \\ 
+ \hline
+arrêts   & Les véhicules de transport en commun ont une liste d'arrêts pour le dépôt et la prise des passagers
+  \\ 
+ \hline
+nombre de passagers à l'arrêt  & nombre de personnes qui attendent à un arrêt de transport en commun
+  \\ 
+ \hline
+capacité & il s'agit du nombre de personnes maximum supporté par le véhicule
+  \\
+ \hline
+ rayon d'observation  & Chaque véhicule dispose d'un champ de vison dans lequel il peut effectuer certaines actions
+  \\
+ \hline
+ vitesse  & C'est la vitesse de déplacement du véhicule
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+ déplacement selon sa direction & Le but de l'agent est d'arriver vers une destination donnée en suivant diverses routes
+ \\
+ \hline
+ respecter le code de la route  & Les véhicules doivent respecter le code la route (arrêter devant le feu-rouge ou panneau stop...)
+  \\
+ \hline
+ prendre et déposer les passagers & Les véhicules de transport en commun prennent et déposent les usagers à chaque arrêt
+ \\
+ \hline
+ diminuer la vitesse ou s'arrêter  & En fonction de la situation sur le réseau routier, le véhicule doit soit diminuer sa vitesse, soit s'arrêter s'il y a des obstacles ou autre moyens de transport devant lui
+  \\
+ \hline
+ respecter les instructions de la police & Les véhicules doivent respecter les consignes des agents de sécurité
+  \\
+ \hline
+ rentrer en collision avec un autre véhicule, ou piéton... & Il est possible que des accidents arrivent.
+  \\
+ \hline
+ observer & Lors de la conduite, le véhicule doit observer ce qui se passe autour de lui (la police, le feu-rouge, autre voiture, les piétons...)
+  \\
+ \hline
+ changer de chemin & En fonction des perturbations du réseau routier (embouteillage, accidents...), le véhicule doit mettre à jour le chemin à suivre pour arriver à sa destination finale
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{feu rouge}\label{tab:feuRouge}}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline \bf Attributs et activités &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ coordonnées  (x,y) & La position du feu sur le réseau
+ \\
+ \hline
+ couleur courante & La couleur actuelle du feu en temps réel (vert, rouge, orange)
+  \\ 
+ \hline
+ durée de vert/rouge/jaune  & Chaque couleur du feu a une durée différente
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+ changer la couleur & C'est la principale activité d'un feu tricolore
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{piéton}\label{tab:pieton}}
+\begin{tabular}{|p{5cm}|p{11cm}|}
+\hline
+\bf Attributs et activités  &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ coordonnées courantes  (x,y) & La position actuelle du piéton sur le réseau
+   \\ 
+ \hline
+ profil   & c'est le profil de l'usager (étudiant, agent, retraité...)
+  \\ 
+ \hline
+ destination   & Elle correspond l'endroit où le piéton souhaite arrivé (destination finale)
+  \\
+ \hline
+ rayon d'observation  & Chaque piéton dispose d'un champ de vison dans lequel il peut effectuer certaines actions
+  \\
+ \hline
+ vitesse  & C'est la vitesse de déplacement du piéton
+ \\
+\hline
+ pouvoir d'achat  & Chaque piéton dispose d'un pouvoir d'achat lui permettant de prendre un moyen de transport
+   \\ 
+ \hline
+ lieu d'habitation   & C'est lieu de résidence de l'usager
+  \\ 
+ \hline
+ objectifs & Un usager a un ensemble d'objectifs à atteindre au cours de la journée (aller au travail, aller manger, revenir au travail...)
+   \\ 
+ \hline
+ objectif actuel  & C'est l'objectif que l'usager souhaite atteindre actuellement
+   \\ 
+ \hline
+mode de transport  & C'est le moyen de transport actuellement utilisé par l'usager
+   \\ 
+ \hline
+possibilité du mode de transport  & Chaque utilisateur dispose d'une liste de mode de transport qu'il peut utiliser (velo, bus, tramway...)
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+ déplacement selon sa direction & Le but de l'agent est d'arriver vers une destination donnée en suivant diverses routes
+ \\
+ \hline
+ respecter le code de la route  & Les pitons doivent respecter le code la route (arrêter devant le feu-rouge...)
+ \\
+ \hline
+ choisir moyen de transport  & Les pitons peuvent emprunter divers moyens de transport (taxi, vélo, bus, train...) au cours de leur déplacement
+  \\
+ \hline
+ observer & le piéton doit observer ce qui se passe autour de lui (la police, le feu-rouge, autre voiture, les piétons...)
+  \\
+ \hline
+ changer de chemin & En fonction des perturbations du réseau routier (embouteillage, accidents...), le piéton doit mettre à jour le chemin à suivre pour arriver à sa destination finale
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Attributs et activités de l'agent \textit{police}\label{tab:police}}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline
+\bf Attributs et activités  &  \bf Description\\
+\hline
+\multicolumn{2}{|c|}{\bf Attributs}
+\\
+\hline
+ coordonnées courantes  (x,y) & La position actuelle de l'agent sur le réseau
+  \\ 
+ \hline
+ensemble des instructions pour la régularisation du trafic   & C'est l'ensemble des instructions que dispose l'agent de police pour la régulation du trafic routier
+ \\
+\hline
+ \multicolumn{2}{|c|}{\bf Activités}
+ \\
+ \hline
+ contrôler  & Il s'agit d'afficher/choisir une instruction pour une situation donnée 
+  \\
+ \hline
+ observer & l'agent de police doit observer ce qui se passe autour de lui (la police, le feu-rouge, autre voiture, les piétons...)
+ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{Les scénarios}
+Le scénario qui nous proposons pour la deuxième phase de sélection du simulateur est définit comme suit :
+
+\begin{itemize}
+    \item Créer ou importer une carte d'un réseau de transport. Le réseau doit comprendre des routes avec divers attributs (type, vitesse maximum, capacité...)
+    \item Créer des moyens de transport avec des itinéraires (ensemble d'arrêts/stations) tout en répétant le déplacement
+    \item Créer des feu-rouges pour la régulation du trafic au carrefour
+    \item Créer des piétions avec différents profils et des objectifs donnés
+    \item Créer des incidents et des situations d'embouteillages
+    \item Donner la priorité aux véhicules de transport en commun, le guidage dynamique d'itinéraire...
+\end{itemize}

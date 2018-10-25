@@ -1,0 +1,31 @@
+Plusieurs simulateurs de trafic routier existent. Ainsi, pour effectuer notre étude, nous allons nous appuyer sur des simulateurs existants. Mais avant, il est important d'effectuer une étude comparative des simulateurs afin de voir celui qui répond le mieux à nos besoins. Pour ce faire, il est primordial de bien connaître les données et les besoins du réseau de trafic à simuler pour la sélection d'un simulateur.
+
+Divers travaux ont porté sur l'étude de ces simulateurs soit de manière générale \cite{kotusevski2009review,xiao2005methodology}, soit pour choisir un simulateur pour un cas spécifique \cite{ejercito2017traffic}. 
+Le choix du simulateur dépend d'un certain nombre de critères comme précisé dans les travaux ci-dessus cités \cite{kotusevski2009review,xiao2005methodology,ejercito2017traffic}. En plus des critères déjà proposés, nous avons identifié d'autres (tenant compte de nos objectifs). L'ensemble des critères se présentent comme suit : 
+
+\begin{enumerate}
+    \item Critères précédemment identifiés
+        \begin{itemize}
+            \item Nature du logiciel (libre, open source, propriétaire...)  : les logiciels Open Source donnent le droit à leurs utilisateurs d’utiliser, d’étudier et de modifier le programme sans aucune restriction. Ce qui n'est pas le cas des logiciels propriétaires.
+            \item Portabilité du simulateur : c'est la capacité d'un programme informatique à être utilisé dans des systèmes d'exploitation autres que celui dans lequel il a été développé sans nécessiter d'importantes modifications.
+            \item Documentation et l'interface utilisateur (IHM) : les logiciels de simulation de trafic comme tout système logiciel complexe doivent disposer d'un manuel utilisateur bien documenté afin de faciliter la prise en main du logiciel et de proposer une interface utilisateur graphique conviviale pour l'utilisation du logiciel. 
+            \item Création de réseaux de circulation routiers et de modèles de véhicules associés : il s'agit des approches (méthodes) utilisées pour la création des réseaux de trafic et aux schémas de circulation des véhicules.
+            \item Simulation graphique et qualité de la représentation graphique : il est important de pouvoir visualiser la simulation en cours d'exécution en temps réel afin d'examiner ce qui se passe exactement et à quel moment. Il est également important de disposer d'une bonne représentation graphique (par exemple 3D) afin de mieux observer les éléments de la simulation. 
+            \item Sortie de la simulation (données et fichiers) : il s'agit de la sortie statistique qui permet de fournir des informations supplémentaires pouvant échapper à l'œil humain lors de l'affichage d'une exécution en temps réel d'une simulation.
+            \item Possibilité de simuler de très grands réseaux de trafic : il s'agit de considérer un réseau de trafic très vaste à l'échelle d'une grande ville ou même d'une même région avec des milliers de routes et des millions de véhicules en circulation.
+            \item Capacités supplémentaires (modules complémentaires) : des fonctionnalités supplémentaires offrent aux logiciels des procédures et des actions plus utiles pour l'utilisateur. On peut donc utiliser des bibliothèques ou modules pour avoir d'autres fonctionnalités.
+            \item Performance du processeur et de la mémoire : il s'agit de voir s'il le simulateur nécessite de grandes quantités de ressources mémoire et de calcul processeur.
+        \end{itemize}
+    
+    \item Nouveaux critères identifiés
+    
+        \begin{itemize}
+            \item Prise en compte de l'intermodalité : il s'agit de voir si le simulateur permet de simuler l'itermodalité au cours d'un déplacement.
+            \item Type de méta-modèle utilisé (imposé) par le simulateur : Plusieurs méta-modèles existent mais ils peuvent être regroupés en deux groupes : macroscopique (flux...) et microscopique (individus, objets, agents...).
+            \item Langage de programmation utilisé par le simulateur : il est important de connaître le langage dans lequel le logiciel a été développé pour des modifications éventuelles. Le langage utilisé peut ou non le développement de certaines fonctionnalités (non disponibilité des bibliothèques par exemple).
+            \item Interfaces d'accès externe : vu comme on souhaite développer des fonctionnalités supplémentaires, il faut disposer d'une interface qui permet de faire plus facilement ces modifications sans rentrer directement dans le code source du logiciel.
+            \item Comportements dynamiques au sein des agents : un aspect très important de notre étude est de simuler des cas d'autorégulation du trafic (fermeture d'une voie, gestion des feux tricolores...) et de permettre aux véhicules de prendre automatique et dynamiquement certaines décisions (changement de routes...) en fonction des situations (embouteillage, accidents...).
+        \end{itemize}
+\end{enumerate}
+
+ 

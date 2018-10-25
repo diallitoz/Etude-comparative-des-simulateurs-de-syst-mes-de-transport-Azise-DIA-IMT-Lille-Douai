@@ -1,0 +1,122 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}     % Fontenc T1
+\usepackage{array}
+\usepackage{hyperref} % Créer des liens et des signets 
+\hypersetup{	
+colorlinks=true, %colorise les liens 
+breaklinks=true, %permet le retour à la ligne dans les liens trop longs 
+urlcolor= blue, %couleur des hyperliens 
+linkcolor= black,	%couleur des liens internes 
+citecolor=black,	%couleur des références 
+pdftitle={Rapport de thèse Diallo Azise Oumar}, %informations apparaissant dans 
+pdfauthor={Diallo Azise Oumar}, %les informations du document 
+pdfsubject={Simulation multi-agent de politiques d’intermodalité urbaines et péri-urbaines}	%sous Acrobat. 
+} 
+
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{pdflscape } %Pour les pages en paysage
+ 
+
+\RequirePackage{xspace}
+\RequirePackage{ifthen}
+\RequirePackage{url}
+\RequirePackage{graphicx}
+\RequirePackage{calc}
+\RequirePackage{amsfonts}
+\RequirePackage{amsmath}
+\RequirePackage{color}
+%\RequirePackage{syntax}
+\RequirePackage{longtable}
+\RequirePackage{setspace} % gestion de l'interligne
+\usepackage[french]{babel}
+\RequirePackage[font={small,it}]{caption} % gestion des légendes
+\usepackage[ruled,vlined]{algorithm2e}
+
+\makeatletter 
+\g@addto@macro{\@algocf@init}{\SetKwInOut{Parameter}{parameters}} 
+\makeatother
+
+\usepackage{nomencl}
+    \makenomenclature
+%\RequirePackage{array} % gestion des tableaux
+%\RequirePackage{longtable}% gestion des tableaux qui tiennent sur plusieurs pages
+
+% % Pour la subdivision des références
+% % Réf : http://forum.mathematex.net/latex-f6/faire-plusieurs-biblio-avec-une-unique-numerotation-t8972.html
+% \makeatletter
+%     \newif\if@openbib
+%     \makeatother
+%     \usepackage{bibtopics} %création du fichier bibtopics.sty pour la gestion de la subdivision 
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LAYOUT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% textsize
+\setlength{\textwidth}{16cm}
+\setlength{\oddsidemargin}{2.5cm-1in}
+\setlength{\textheight}{23.7cm}
+\setlength{\headsep}{0cm}
+\setlength{\topmargin}{-1cm}
+
+
+% line sep: 1.5 * normal value
+ \onehalfspacing
+
+% ------------------------------------------------------------------
+% liens hypertext
+% ------------------------------------------------------------------
+% \hypersetup{
+%   linktocpage,%
+%   %%--- Color Links ---
+%   colorlinks=true,%
+%   linkcolor=blue,%
+%   citecolor=blue,%
+%   urlcolor=blue,%
+%   menucolor=blue,%
+%   %%--- Doc Info ---
+%   pdftitle={Simulation multi-agent de politiques d'intermodalité urbaines et péri-ubaines},%
+%   pdfauthor={DIALLO Azise Oumar},%
+% }
+% \hyperbaseurl{http://www.http://imt-lille-douai.fr/}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ENVIRONMENTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\theoremstyle{plain}
+\newtheorem{definition}{Définition}
+\newtheorem{hypothese}{Hypothèse}
+\newtheorem{exemple}{Exemple}
+\newtheorem{postulat}{Postulat}
+\newtheorem{propriete}{Propriété}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% typo
+\newcommand{\etc}{\emph{etc.}\@\xspace}
+\newcommand{\via}{\emph{via}\xspace}
+\newcommand{\ie}{\emph{i.e.}\@\xspace}
+\newcommand{\apriori}{\emph{a priori}\xspace}
+\newcommand{\vs}{\emph{vs}\xspace}
+
+% comments
+\newcommand{\supArnaud}[2][Arnaud]{\textcolor{red}{[#1 : ] #2}}
+\newcommand{\supGuillaume}[2][Guillaume]{\textcolor{red}{[#1 : ] #2}}
+\newcommand{\supRene}[2][René]{\textcolor{red}{[#1 : ] #2}}
+
+% comments
+\newcommand{\phdAzise}[2][Azise]{\textcolor{blue}{[#1 : ] #2}}
+
+% formules
+
+
+\endinput
